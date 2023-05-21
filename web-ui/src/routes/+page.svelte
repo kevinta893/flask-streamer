@@ -18,6 +18,6 @@
 </script>
 
 {#each webcamIds as webcamId}
-	<Webcam videoUrl={`${PUBLIC_WEBCAM_SERVER}/webcams/stream/${webcamId}`} />
+	<Webcam videoUrl={`${PUBLIC_WEBCAM_SERVER}/webcams/${webcamId}/stream`} />
 {/each}
 <Button primary on:click={sendClick}>Hello counter</Button>

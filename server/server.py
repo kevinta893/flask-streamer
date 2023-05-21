@@ -31,7 +31,7 @@ def webcam_info(webcam_index):
     return webcam_info_to_dict(webcam.get_stats())
 
 
-@app.route("/webcams/stream/<webcam_index>")
+@app.route("/webcams/<webcam_index>/stream/")
 def video_feed(webcam_index):
     index = int(webcam_index)
     if index not in webcam_dict:
