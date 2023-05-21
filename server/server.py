@@ -1,6 +1,7 @@
 from flask import Flask, Response, current_app, render_template
 from webcam import Webcam, WebcamFactory
 from models.WebcamInfo import webcam_info_to_dict
+from util.int import intTryParse
 import socketio
 
 sio = socketio.Server(async_mode="threading", cors_allowed_origins="*")
@@ -23,8 +24,8 @@ def list_webcams():
 
 @app.route("/webcams/<webcam_index>/info")
 def webcam_info(webcam_index):
-    index = int(webcam_index)
-    if index not in webcam_dict:
+    index, isInt = intTryParse(webcam_index)
+    if not isInt or index not in webcam_dict:
         return "Invalid webcam id", 400
 
     webcam = webcam_dict[index]
@@ -33,8 +34,8 @@ def webcam_info(webcam_index):
 
 @app.route("/webcams/<webcam_index>/stream/")
 def video_feed(webcam_index):
-    index = int(webcam_index)
-    if index not in webcam_dict:
+    index, isInt = intTryParse(webcam_index)
+    if not isInt or index not in webcam_dict:
         return "Invalid webcam id", 400
 
     webcam = webcam_dict[index]
