@@ -9,10 +9,10 @@
     "editor.defaultFormatter": "svelte.svelte-vscode"
   },
   "[javascript]": {
-    "editor.defaultFormatter": "svelte.svelte-vscode"
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "svelte.svelte-vscode"
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "python.formatting.provider": "none"
 }
