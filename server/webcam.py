@@ -5,6 +5,10 @@ from models.WebcamInfo import WebcamInfo
 class Webcam:
     def __init__(self, webcam_index):
         self.video = cv2.VideoCapture(webcam_index)
+        self.exposure = 0
+        self.saturation = 0
+        self.brightness = 0
+        self.hue = 0
 
     def next_frame(self):
         while True:
@@ -28,6 +32,22 @@ class Webcam:
             webcam.get(cv2.CAP_PROP_SATURATION),
             webcam.get(cv2.CAP_PROP_HUE),
         )
+
+    def set_exposure(self, exposure):
+        self.exposure = exposure
+        self.video.set(cv2.CAP_PROP_EXPOSURE, exposure)
+
+    def set_saturation(self, saturation):
+        self.saturation = saturation
+        self.video.set(cv2.CAP_PROP_SATURATION, saturation)
+
+    def set_brightness(self, brightness):
+        self.brightness = brightness
+        self.video.set(cv2.CAP_PROP_BRIGHTNESS, brightness)
+
+    def set_hue(self, hue):
+        self.hue = hue
+        self.video.set(cv2.CAP_PROP_HUE, hue)
 
     def cleanup(self):
         self.video.release()

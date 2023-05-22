@@ -14,6 +14,7 @@ webcam_dict = webcam_factory.create_all_webcams()
 
 @app.route("/")
 def index():
+    # For debugging
     return render_template("index.html")
 
 
@@ -45,5 +46,45 @@ def video_feed(webcam_index):
 
 
 @sio.on("message")
-def things(argthing, data):
+def things(arg, data):
     print(data)
+
+
+@sio.on("brightness")
+def change_brightness(arg, data):
+    webcam_index = data["webcam"]
+    if webcam_index not in webcam_dict:
+        return
+
+    webcam = webcam_dict[webcam_index]
+    webcam.set_brightness(data["brightness"])
+
+
+@sio.on("saturation")
+def change_brightness(arg, data):
+    webcam_index = data["webcam"]
+    if webcam_index not in webcam_dict:
+        return
+
+    webcam = webcam_dict[webcam_index]
+    webcam.set_saturation(data["saturation"])
+
+
+@sio.on("exposure")
+def change_brightness(arg, data):
+    webcam_index = data["webcam"]
+    if webcam_index not in webcam_dict:
+        return
+
+    webcam = webcam_dict[webcam_index]
+    webcam.set_exposure(data["exposure"])
+
+
+@sio.on("hue")
+def change_brightness(arg, data):
+    webcam_index = data["webcam"]
+    if webcam_index not in webcam_dict:
+        return
+
+    webcam = webcam_dict[webcam_index]
+    webcam.set_hue(data["hue"])
