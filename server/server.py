@@ -1,5 +1,5 @@
-from flask import Flask, Response, current_app, render_template
-from webcam import Webcam, WebcamFactory
+from flask import Flask, Response, render_template
+from webcam import WebcamFactory
 from models.WebcamInfo import webcam_info_to_dict
 from util.int import intTryParse
 import socketio
