@@ -11,9 +11,6 @@
 
 <div>
 	{#each webcamIds as webcamId}
-		<!-- <Draggable> -->
 		<Webcam {webcamId} />
-		<!-- </Draggable> -->
 	{/each}
 </div>
-
