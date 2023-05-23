@@ -5,13 +5,21 @@ from models.WebcamInfo import WebcamInfo
 class Webcam:
     def __init__(self, webcam_index):
         self.video = cv2.VideoCapture(webcam_index)
-        self.exposure = 0
-        self.saturation = 0
-        self.brightness = 0
-        self.hue = 0
+        self.init_exposure = self.video.get(cv2.CAP_PROP_BRIGHTNESS)
+        self.init_saturation = self.video.get(cv2.CAP_PROP_CONTRAST)
+        self.init_brightness = self.video.get(cv2.CAP_PROP_SATURATION)
+        self.init_hue = self.video.get(cv2.CAP_PROP_HUE)
+        self.exposure = self.init_exposure
+        self.saturation = self.init_saturation
+        self.brightness = self.init_brightness
+        self.hue = self.init_hue
+        self.playing = True
 
     def next_frame(self):
         while True:
+            if not self.playing:
+                continue
+
             success, frame = self.video.read()
             if not success:
                 break
@@ -33,21 +41,37 @@ class Webcam:
             webcam.get(cv2.CAP_PROP_HUE),
         )
 
+    # Sets the exposure of the webcam, use a value [-1,1]
     def set_exposure(self, exposure):
-        self.exposure = exposure
-        self.video.set(cv2.CAP_PROP_EXPOSURE, exposure)
+        self.exposure = self.init_exposure * (exposure + 1)
+        self.video.set(cv2.CAP_PROP_EXPOSURE, self.exposure)
 
+    # Sets the saturation of the webcam, use a value [-1,1]
     def set_saturation(self, saturation):
-        self.saturation = saturation
-        self.video.set(cv2.CAP_PROP_SATURATION, saturation)
+        self.saturation = self.init_saturation * (saturation + 1)
+        self.video.set(cv2.CAP_PROP_SATURATION, self.saturation)
 
+    # Sets the brightness of the webcam, use a value [-1,1]
     def set_brightness(self, brightness):
-        self.brightness = brightness
-        self.video.set(cv2.CAP_PROP_BRIGHTNESS, brightness)
+        self.brightness = self.init_brightness * (brightness + 1)
+        self.video.set(cv2.CAP_PROP_BRIGHTNESS, self.brightness)
 
+    # Sets the hue of the webcam, use a value [-1,1]
     def set_hue(self, hue):
-        self.hue = hue
-        self.video.set(cv2.CAP_PROP_HUE, hue)
+        self.hue = self.init_hue * (hue + 1)
+        self.video.set(cv2.CAP_PROP_HUE, self.hue)
+
+    def toggle_play(self):
+        if self.playing:
+            self.pause()
+        else:
+            self.play()
+
+    def play(self):
+        self.playing = True
+
+    def pause(self):
+        self.playing = False
 
     def cleanup(self):
         self.video.release()

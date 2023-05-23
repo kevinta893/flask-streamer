@@ -56,8 +56,11 @@ def change_brightness(arg, data):
     if webcam_index not in webcam_dict:
         return
 
+    brightness = data["brightness"]
+    brightness = min(brightness, 1)
+    brightness = max(brightness, -1)
     webcam = webcam_dict[webcam_index]
-    webcam.set_brightness(data["brightness"])
+    webcam.set_brightness(brightness)
 
 
 @sio.on("saturation")
@@ -66,6 +69,9 @@ def change_brightness(arg, data):
     if webcam_index not in webcam_dict:
         return
 
+    saturation = data["saturation"]
+    saturation = min(saturation, 1)
+    saturation = max(saturation, -1)
     webcam = webcam_dict[webcam_index]
     webcam.set_saturation(data["saturation"])
 
@@ -75,7 +81,9 @@ def change_brightness(arg, data):
     webcam_index = data["webcam"]
     if webcam_index not in webcam_dict:
         return
-
+    exposure = data["exposure"]
+    exposure = min(exposure, 1)
+    exposure = max(exposure, -1)
     webcam = webcam_dict[webcam_index]
     webcam.set_exposure(data["exposure"])
 
@@ -85,6 +93,22 @@ def change_brightness(arg, data):
     webcam_index = data["webcam"]
     if webcam_index not in webcam_dict:
         return
-
+    hue = data["hue"]
+    hue = min(hue, 1)
+    hue = max(hue, -1)
     webcam = webcam_dict[webcam_index]
     webcam.set_hue(data["hue"])
+
+
+@sio.on("set_play_status")
+def set_play_status(arg, data):
+    webcam_index = data["webcam"]
+    if webcam_index not in webcam_dict:
+        return
+
+    isPlaying = data["play"]
+    webcam = webcam_dict[webcam_index]
+    if isPlaying:
+        webcam.play()
+    else:
+        webcam.pause()
